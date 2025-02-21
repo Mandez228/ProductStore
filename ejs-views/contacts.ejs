@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://img.icons8.com/pulsar-color/48/anonymous-mask.png" alt="anonymous-mask" type="image/png">
+
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+            background: #fff;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav {
+            width: 100%;
+            background: linear-gradient(to bottom, #4e54c8, #3b3e9a);
+            padding: 1rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        nav ul li a:hover {
+            background: #6c70f1;
+            transform: scale(1.1);
+        }
+
+        .contacts-container {
+            width: 100%;
+            max-width: 800px;
+            background: linear-gradient(to bottom, #4e54c8, #6c70f1);
+            border-radius: 15px;
+            color: #fff;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .contacts-container h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        ul.contacts {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul.contacts li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: background-color 0.3s;
+        }
+
+        ul.contacts li:last-child {
+            border-bottom: none;
+        }
+
+        ul.contacts li:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ul.contacts li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        ul.contacts li a:hover {
+            color: #c3c8ff;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/add-product">New Product</a></li>
+        <li><a href="/contacts">Contacts</a></li>
+        <li><a href="/cart">View Cart</a></li>
+    </ul>
+</nav>
+
+<div class="contacts-container">
+    <h2>This work was done by</h2>
+    <ul class="contacts">
+        <% if (contacts.length) { %>
+            <% contacts.forEach(({ link, name }) => { %>
+                <li>
+                    <a href="<%= link %>" target="_blank"><%= name %></a>
+                </li>
+            <% }) %>
+        <% } %>
+    </ul>
+</div>
+</body>
+</html>

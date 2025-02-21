@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="icon" href="https://img.icons8.com/pulsar-color/48/anonymous-mask.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: #fff;
+            color: #333;
+        }
+
+        nav {
+            width: 100%;
+            background: linear-gradient(to bottom, #4e54c8, #3b3e9a);
+            padding: 1rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        nav ul li a:hover {
+            background: #6c70f1;
+            transform: scale(1.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin: 6rem 0 2rem;
+            color: #4e54c8;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-container {
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .cart-container article {
+            background: linear-gradient(to bottom, #4e54c8, #6c70f1);
+            color: #fff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-container article img {
+            width: 100px;
+            height: auto;
+            border-radius: 8px;
+            margin-right: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .cart-details {
+            flex-grow: 1;
+        }
+
+        .cart-actions {
+            text-align: right;
+        }
+
+        .cart-details h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-details p {
+            margin: 0.3rem 0;
+        }
+
+        .cart-details .subtotal {
+            font-weight: bold;
+            color: #fff5b0;
+        }
+
+        form .quantity-input {
+            width: 50px;
+            padding: 0.3rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background: #3b3e9a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: #6c70f1;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(1);
+        }
+
+        .total-section {
+            text-align: right;
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4e54c8;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/add-product">New Product</a></li>
+        <li><a href="/contacts">Contacts</a></li>
+        <li><a href="/cart">View Cart</a></li>
+    </ul>
+</nav>
+
+<h1>Your Cart</h1>
+
+<div class="cart-container">
+    <% if (products && products.length > 0) { %>
+        <% products.forEach(item => { %>
+            <article>
+                <img src="<%= item.product.image ? 'data:image/png;base64,' + item.product.image.data.toString('base64') : 'https://via.placeholder.com/100' %>" alt="<%= item.product.title %>">
+                <div class="cart-details">
+                    <h2><%= item.product.title %></h2>
+                    <p>Price: $<%= item.product.cost.toFixed(2) %></p>
+                    <p>Quantity: <%= item.quantity %></p>
+                    <p class="subtotal">Subtotal: $<%= (item.product.cost * item.quantity).toFixed(2) %></p>
+                </div>
+                <div class="cart-actions">
+                    <form action="/cart" method="POST" style="display: inline-block;">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="productId" value="<%= item.product._id %>">
+                        <input class="quantity-input" type="number" name="quantity" value="0"  required>
+                        <button type="submit">Update</button>
+                    </form>
+                </div>
+            </article>
+        <% }); %>
+        <div class="total-section">
+            <p>Total: $<%= totalCost.toFixed(2) %></p>
+        </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <form action="/cart" method="POST" onsubmit="return clearCart(event);">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit">Clear Cart</button>
+                </form>
+
+                <a href="/create-order/">
+                    <button type="button">Order</button>
+                </a>
+            </div>
+
+
+<% } else { %>
+        <p style="text-align: center; font-size: 1.2rem; color: #999;">Your cart is empty. <a href="/products" style="color: #4e54c8;">Start shopping!</a></p>
+    <% } %>
+</div>
+<script>
+    function clearCart(event) {
+        event.preventDefault();
+
+        fetch('/cart', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+
+        window.location.reload();
+    }
+</script>
+
+</body>
+</html>
