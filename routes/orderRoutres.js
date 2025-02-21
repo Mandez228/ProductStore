@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Cart = require('../models/Cart');
+const Cart = require('../models/cart');
 const Order = require('../models/order');
 const createPath = require('../helper/create-path');
 

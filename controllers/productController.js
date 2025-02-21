@@ -1,5 +1,5 @@
 const Product = require("../models/product");
-const Cart = require('../models/Cart');
+const Cart = require('../models/cart');
 const createPath = require("../helper/create-path");
 
 
